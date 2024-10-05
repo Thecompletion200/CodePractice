@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+#include <unordered_set>
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(std::string s) {
+        int left = 0;
+        int maxSubstring = 0;
+        std::unordered_set<char> charSet;  // To keep track of characters in the current window
+        
+        for (int right = 0; right < s.length(); right++) {
+            // If we find a duplicate character, we need to move the left pointer
+            while (charSet.find(s[right]) != charSet.end()) {
+                charSet.erase(s[left]);  // Remove the character at 'left' from the set
+                left++;  // Move the left pointer right to find a new valid window
+            }
+            charSet.insert(s[right]);  // Add the current character to the set
+            maxSubstring = std::max(maxSubstring, right - left + 1);  // Update max length
+        }
+        
+        return maxSubstring;
+    }
+};
